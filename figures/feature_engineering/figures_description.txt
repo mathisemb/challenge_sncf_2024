@@ -1,0 +1,9 @@
+
+Fig1_Standard_deviation_day_of_week : 
+using the function plot_std_data, the std is averaged on all stations.
+Comments : Sunday seems to be a good day type, Saturday quite good but Monday-Friday quite bad.
+
+Fig2_
+
+
+
