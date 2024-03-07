@@ -136,10 +136,14 @@ def display_by_station(df: pd.DataFrame, stations: Union[list[str]],
     #We copy to avoid changing the original DataFrame.
     new_df = df.copy()
 
+
     if start_date is not None or end_date is not None :
         period_filter = make_date_filter(new_df, start_date, end_date, date_column)
         new_df = new_df[period_filter]
     
+    if start_date is None : start_date = new_df['date'].iloc[0]
+    if end_date is None : end_date = new_df['date'].iloc[-1]
+
     station_filter, stations = make_station_filter(df, stations, station_column, seed)
     
     final_df = new_df[station_filter]
