@@ -14,7 +14,6 @@ day_of_week_map = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday',
 
 #initial_categorisation = {}
 
-
 def make_date_filter(df: pd.DataFrame, start_date: str, end_date: str = None, column: str = "date" ) -> filter : 
     """
     Create a date filter.
@@ -38,6 +37,15 @@ def make_date_filter(df: pd.DataFrame, start_date: str, end_date: str = None, co
         filter = df[column] <= end_date
     return filter
 
+def year_filter(df: pd.DataFrame, years=[]):
+    df_copy = df.copy()
+    filter = df_copy['date'].dt.year.isin(years)
+    return df_copy[filter]
+
+def date_filter(df: pd.DataFrame, start_date: str, end_date: str = None, column: str = "date" ) -> pd.DataFrame : 
+    df_copy = df.copy()
+    filter = make_date_filter(df_copy, start_date, end_date, column)
+    return df_copy[filter]
 def make_station_filter(df: pd.DataFrame, stations: Union[list[str], int], column: str = "station", seed = None ) -> filter : 
     """
     Create a station filter.
@@ -116,8 +124,7 @@ def display_by_station(df: pd.DataFrame, stations: Union[list[str]],
                     start_date: str = None, end_date: str = None,
                     date_column : str = 'date', day_name_col = 'day_name',
                     station_column = 'station', crowd_column: str = 'y',
-                    seed = None, count_per_day_type = ['job', 'ferie', 'vacances'],
-                    #time_unity: list[str] = ['Year', 'Month'],
+                    seed = None, count_per_day_type = None, # change to ['job', 'ferie', 'vacances'],
                     plot: str = True, display_mode = 'per_day_of_week'
                     ) -> pd.DataFrame :    
    
