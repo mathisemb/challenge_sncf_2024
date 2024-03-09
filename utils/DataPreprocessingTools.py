@@ -57,12 +57,14 @@ def data_day_typer(data_init: pd.DataFrame):
     return data
 
 
-def add_day_type_column(df_init: pd.DataFrame, holy_dict: dict, other_ferie: dict):
+def add_day_type_column(df_init: pd.DataFrame, holy_dict: dict, pub_holy_dict: dict):
     """ 
     Here are the labels
     day_type_map = {0: 'job', 1: 'mid_holy', 2: 'start_holy', 3: 'end_holy',
                  4: 'Noel_eve', 5: 'Noel', 6: 'New_year_eve', 7: 'New_year',
                  8: 'other ferie'}
+
+    Other day types : Mardi gras ? 
     """
     df = df_init.copy()
 
@@ -75,16 +77,27 @@ def add_day_type_column(df_init: pd.DataFrame, holy_dict: dict, other_ferie: dic
         df.loc[holiday_filter & (df['date'] == start_date), 'day_type'] = 2  # First day
         df.loc[holiday_filter & (df['date'] == end_date), 'day_type'] = 3    # Last day
     
+    # Static public holydays
     for year in range(2015, 2024):
         df.loc[df['date'] == str(year) + '-12-24', 'day_type'] = 4 # Noel_eve 
         df.loc[df['date'] == str(year) + '-12-25', 'day_type'] = 5 # Noel
         df.loc[df['date'] == str(year) + '-12-31', 'day_type'] = 6 # New_year_eve
         df.loc[df['date'] == str(year) + '-01-01', 'day_type'] = 7 # New_year
-    
-    for ferie, period in other_ferie.items():
-        pass
+        df.loc[df['date'] == str(year) + '-05-01', 'day_type'] = 8 # Labour Day
+        df.loc[df['date'] == str(year) + '-05-08', 'day_type'] = 9 # 8 mai 1945
+        df.loc[df['date'] == str(year) + '-07-14', 'day_type'] = 10 # 14 Juillet
+        df.loc[df['date'] == str(year) + '-08-15', 'day_type'] = 11 # Assomption
+        df.loc[df['date'] == str(year) + '-11-01', 'day_type'] = 12 # Toussaint
+        df.loc[df['date'] == str(year) + '-11-11', 'day_type'] = 13 # 11 Novembre
+
+    Public_holyday_map = {'Paques': 14, 'Ascension': 15, 'Pentecote': 16}
+
+    # Dynamic public holydays
+    for public_holyday, day in pub_holy_dict.items(): # Paques, Ascension, Pencôte
+        df.loc[df['date'] == day, 'day_type'] = Public_holyday_map[public_holyday[:-5]] # -5 to elimiate the date. public_holyday looks like 'Ascension_2022'.
 
     return df
+
 
 def add_month_type_column(df_init: pd.DataFrame, date_col:str = 'date'):
     

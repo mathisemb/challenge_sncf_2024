@@ -204,3 +204,22 @@ def display_by_station(df: pd.DataFrame, stations: Union[list[str]],
         print(f"{total = }")
 
     return final_df, stations
+
+
+def plot_STD_data(STDs):
+    
+    x_lab = 'day types'
+    y_lab ='relative std'
+
+    # Extracting keys and values from the dictionary
+    keys = list(STDs.keys())
+    values = list(STDs.values())
+
+    # Creating a bar plot
+    plt.plot(keys, values, color='blue')
+    plt.xlabel(x_lab)
+    plt.ylabel(y_lab)
+    plt.title(f'Relative standard deviation per {x_lab}.')
+    plt.show()
+
+    return STDs

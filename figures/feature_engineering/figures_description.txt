@@ -9,3 +9,6 @@ Fig2_
 Fig4_ : le covid n'a pas été enlevé sur ce plot !! 
 
 
+Fig5_rel_std_month_featured : 1700 features (month + day_of_Week + 17 day types)
+
+
