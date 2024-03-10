@@ -61,16 +61,20 @@ def make_station_filter(df: pd.DataFrame, stations: Union[list[str], int], colum
     filtered_df = df[filter]
     - stations: stations (might be useful if randomly generated)
     """
-    
+    random = False
     if type(stations) == int :
+        random = True
         if seed is not None : 
             random.seed(seed)
         stations = random.sample(df[column].tolist(), stations)
     
     match_pattern = '|'.join(stations)
     filter = df[column].str.contains(match_pattern)
-    
-    return filter, stations
+
+    if random :
+        return filter, stations
+    else : 
+        return filter
 
 
 def make_day_filter(  df: pd.DataFrame, day_to_match: list[str] = [], day_to_ban: list[str] = [],

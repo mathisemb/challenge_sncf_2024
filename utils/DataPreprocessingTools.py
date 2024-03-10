@@ -62,7 +62,7 @@ def add_day_type_column(df_init: pd.DataFrame, holy_dict: dict, pub_holy_dict: d
     Here are the labels
     day_type_map = {0: 'job', 1: 'mid_holy', 2: 'start_holy', 3: 'end_holy',
                  4: 'Noel_eve', 5: 'Noel', 6: 'New_year_eve', 7: 'New_year',
-                 8: 'other ferie'}
+                 8: ''}
 
     Other day types : Mardi gras ? 
     """
