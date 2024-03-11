@@ -2,10 +2,10 @@ import pandas as pd
 from scipy.stats import norm
 import numpy as np
 
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 
-from PandasToolsFunction import make_date_filter
-from PandasToolsFunction import date_filter
+from utils.PandasToolsFunction import make_date_filter, make_station_filter
+from utils.PandasToolsFunction import date_filter
 
 # Labelling data
 
@@ -124,6 +124,31 @@ def replicate_one_year(data: pd.DataFrame, year_to_replicate='2022'):
     duplicated_data = pd.concat([data, data_to_replicate], ignore_index=True)
 
     return duplicated_data
+
+def train_data_station_split(train_data_init: pd.DataFrame, size = 50, station_col ='station'):
+    train_data = train_data_init.copy()
+
+    train_data.sort_values(station_col, inplace=True)
+    stations = train_data[station_col].unique()
+    total_stations = len(stations)
+
+    station_count =0
+    split_dataframes = []
+    end = False
+    
+    while not end :
+        if station_count + size < total_stations :
+            current_stations = stations[station_count: station_count + size]
+        else : 
+            current_stations = stations[station_count:]
+            end = True
+
+        station_count += size
+        stations_filter = make_station_filter(train_data, current_stations)
+        current_dataframe = train_data[stations_filter]
+        split_dataframes.append(current_dataframe)
+
+    return split_dataframes
 
 
 # Data anomaly detection

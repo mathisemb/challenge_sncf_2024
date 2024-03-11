@@ -61,17 +61,17 @@ def make_station_filter(df: pd.DataFrame, stations: Union[list[str], int], colum
     filtered_df = df[filter]
     - stations: stations (might be useful if randomly generated)
     """
-    random = False
+    Random = False
     if type(stations) == int :
-        random = True
+        Random = True
         if seed is not None : 
             random.seed(seed)
-        stations = random.sample(df[column].tolist(), stations)
+        stations = random.sample(df[column].unique().tolist(), stations)
     
     match_pattern = '|'.join(stations)
     filter = df[column].str.contains(match_pattern)
 
-    if random :
+    if Random :
         return filter, stations
     else : 
         return filter
